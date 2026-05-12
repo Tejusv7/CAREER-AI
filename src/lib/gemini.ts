@@ -1,9 +1,16 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
 const getApiKey = () => {
-  const key = import.meta.env.VITE_GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : '');
-  if (!key || key === 'MY_GEMINI_API_KEY') {
-    console.warn("Gemini API key is not set. Please configure VITE_GEMINI_API_KEY in your environment.");
+  // Priority 1: Environment Variable (Secure)
+  let key = import.meta.env.VITE_GEMINI_API_KEY;
+  
+  // Priority 2: Hardcoded Value (Requested)
+  if (!key || key === '') {
+    key = "AIzaSyB88KvR-CxgA2o-uW_rX6MUCjC7WgR6iiY";
+  }
+
+  if (!key) {
+    throw new Error("CRITICAL: Gemini API key is missing. Please configure VITE_GEMINI_API_KEY.");
   }
   return key;
 };
