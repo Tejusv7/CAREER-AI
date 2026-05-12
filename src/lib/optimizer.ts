@@ -4,32 +4,37 @@
 export function optimizeResumeText(text: string): string {
   if (!text) return '';
 
-  // 1. Normalize line endings and whitespace
-  let optimized = text.replace(/\r\n/g, '\n').replace(/\s+/g, ' ');
+  // 1. Normalize line endings and collapse whitespace
+  let optimized = text
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0) // Remove empty lines
+    .join('\n');
 
-  // 2. Remove common resume boilerplate/noise if detected (simple regex)
-  // (e.g., repeating page numbers, standard disclaimers)
+  // 2. Remove common resume boilerplate/noise
   optimized = optimized.replace(/Page \d+ of \d+/gi, '');
-  optimized = optimized.replace(/Confidential|All rights reserved/gi, '');
-
-  // 3. Deduplicate phrases (simple sliding window)
-  const words = optimized.split(' ');
-  const uniqueWords = [];
-  let lastWord = '';
+  optimized = optimized.replace(/Confidential|All rights reserved|Resume|Curriculum Vitae|CV/gi, '');
   
-  for (const word of words) {
-    if (word.toLowerCase() !== lastWord.toLowerCase()) {
-      uniqueWords.push(word);
+  // 3. Deduplicate consecutive identical lines (often happens in bad PDF extraction)
+  const lines = optimized.split('\n');
+  const uniqueLines = [];
+  let lastLine = '';
+  
+  for (const line of lines) {
+    if (line.toLowerCase() !== lastLine.toLowerCase()) {
+      uniqueLines.push(line);
     }
-    lastWord = word;
+    lastLine = line;
   }
   
-  optimized = uniqueWords.join(' ').trim();
+  optimized = uniqueLines.join('\n');
 
-  // 4. Content limit (tokens approximation)
-  // Most resumes shouldn't exceed 8k characters for analysis
-  if (optimized.length > 8000) {
-    optimized = optimized.slice(0, 8000) + '... [Content truncated for optimization]';
+  // 4. Token-aware limit (approximate)
+  // We want to stay well within Gemini's sweet spot for fast analysis
+  if (optimized.length > 10000) {
+    optimized = optimized.slice(0, 10000) + '\n... [Content truncated for analysis performance]';
   }
 
   return optimized;

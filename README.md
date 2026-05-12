@@ -1,62 +1,20 @@
-# CareerView AI
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-AI-powered resume analyzer built using React, TypeScript, Vite, and Google Gemini API.
+# Run and deploy your AI Studio app
 
-## Features
+This contains everything you need to run your app locally.
 
-- ATS Resume Analysis
-- AI-Powered Resume Feedback
-- Resume PDF Upload
-- Skill Gap Detection
-- Job Role Matching
-- Fast Resume Parsing
-- Responsive Modern UI
-
-## Tech Stack
-
-- React
-- TypeScript
-- Vite
-- Google Gemini API
-- Vercel
-
-## Live Demo
-
-Add your deployed website link here.
+View your app in AI Studio: https://ai.studio/apps/cf95d617-8e92-4dda-9ad0-1fd2c7a44c7f
 
 ## Run Locally
 
-### Prerequisites
-- Node.js installed
+**Prerequisites:**  Node.js
 
-### Installation
 
-```bash
-npm install
-```
-
-### Environment Variables
-
-Create a `.env.local` file and add:
-
-```env
-VITE_GEMINI_API_KEY=YOUR_API_KEY
-```
-
-### Start Development Server
-
-```bash
-npm run dev
-```
-
-## Deployment
-
-Deployed using Vercel.
-
-## Future Improvements
-
-- Authentication
-- Resume History
-- AI Mock Interviews
-- Advanced ATS Optimization
-- Backend Integration
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
